@@ -1,5 +1,4 @@
 package xyz.wongs.weathertop.socket.rpc.pkg06netty.idx01;
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;

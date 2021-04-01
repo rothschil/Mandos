@@ -9,13 +9,7 @@ import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.plugin2.message.HeartbeatMessage;
 import xyz.wongs.drunkard.base.constant.Constant;
-import xyz.wongs.drunkard.base.utils.StringUtils;
-import xyz.wongs.drunkard.base.utils.security.SignatureUtils;
-import xyz.wongs.drunkard.base.utils.thread.CoustomThreadFactory;
-import xyz.wongs.drunkard.base.utils.thread.ThreadPoolUtils;
-import xyz.wongs.weathertop.socket.rpc.pkg06netty.idx04serial.bo.Res;
 import xyz.wongs.weathertop.socket.rpc.pkg06netty.idx11heartbeat.util.NodeInfo;
 
 import java.net.InetAddress;
@@ -54,7 +48,7 @@ public class ClientHeartBeatHandler extends ChannelHandlerAdapter {
         try {
             addr = InetAddress.getLocalHost();
             String ip = addr.getHostAddress();
-            // 绑定证书 ，验证身份
+
             String key = "12345";
             String auth = ip+ Constant.HF_COLON+key;
             LOG.info("channelActive :"+auth);
