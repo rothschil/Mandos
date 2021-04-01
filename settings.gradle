@@ -1,0 +1,6 @@
+include 'mandos-framework'
+include 'mandos-framework:framework-spring'
+include 'mandos-rpc:rpc-netty'
+include 'mandos-rpc'
+include 'mandos-util'
+
