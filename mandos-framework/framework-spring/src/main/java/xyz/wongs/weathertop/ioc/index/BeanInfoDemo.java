@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.ioc;
+package xyz.wongs.weathertop.ioc.index;
 
 import java.beans.*;
 import java.lang.reflect.InvocationTargetException;
