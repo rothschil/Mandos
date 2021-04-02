@@ -6,6 +6,7 @@ ext.versions = [
         commonsIoVersion:'2.8.0',
         commonsLang3Version:'3.11',
         commonsCodecVersion:'1.15',
+        springCoreVersion:'5.2.2.RELEASE',
         druidSpringBootStarterVersion:'1.2.3',
         commonsHttpclientVersion:'1.2.3'
 ]
@@ -27,7 +28,7 @@ ext.libraries = [
     'spring-boot-starter-aop':'org.springframework.boot:spring-boot-starter-aop:2.3.4.RELEASE',
     'validation-api':'javax.validation:validation-api:2.0.1.Final',
     'javax.servlet-api':'javax.servlet:javax.servlet-api:4.0.1',
-    'spring-tx':'org.springframework:spring-tx:5.2.9.RELEASE',
+    'spring-tx':"org.springframework:spring-tx:${versions.springCoreVersion}",
     'fastjson':'com.alibaba:fastjson:1.2.74',
     'guava':'com.google.guava:guava:23.0-rc1',
     'hutool-all':'cn.hutool:hutool-all:5.4.1',

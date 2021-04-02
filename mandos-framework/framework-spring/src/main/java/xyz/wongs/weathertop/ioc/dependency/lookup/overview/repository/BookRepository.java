@@ -2,6 +2,7 @@ package xyz.wongs.weathertop.ioc.dependency.lookup.overview.repository;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.context.ApplicationContext;
 import xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book;
 
 import java.util.Collection;
@@ -20,7 +21,7 @@ public class BookRepository {
 
     private BeanFactory beanFactory;
 
-    private ObjectFactory<Book> objectFactory;
+    private ObjectFactory<ApplicationContext> objectFactory;
 
     public Collection<Book> getUsers() {
         return users;
@@ -38,11 +39,11 @@ public class BookRepository {
         this.beanFactory = beanFactory;
     }
 
-    public ObjectFactory<Book> getObjectFactory() {
+    public ObjectFactory<ApplicationContext> getObjectFactory() {
         return objectFactory;
     }
 
-    public void setObjectFactory(ObjectFactory<Book> objectFactory) {
+    public void setObjectFactory(ObjectFactory<ApplicationContext> objectFactory) {
         this.objectFactory = objectFactory;
     }
 }

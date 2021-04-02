@@ -103,9 +103,6 @@
 
 ### 4.2. autowire方式
 
-### 
-
-
 ## 5. Ioc依賴来源（Dependency Sources）
 
 
