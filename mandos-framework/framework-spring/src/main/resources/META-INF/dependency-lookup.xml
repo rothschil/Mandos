@@ -4,9 +4,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="book" class="xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book">
+    <bean id="book" class="xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book" >
         <property name="id" value="2342"/>
         <property name="name" value="老邪"/>
+    </bean>
+
+    <bean id="bookSupport" class="xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.BookSupport" parent="book" primary="true">
+        <property name="price" value="124"/>
     </bean>
 
     <bean id="objectFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
