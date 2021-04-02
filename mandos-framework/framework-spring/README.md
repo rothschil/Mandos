@@ -82,80 +82,83 @@
 
 #### 2.5.1. 構造器注入 Setter注入
 
-## 5. Ioc依賴查找（Dependency Loopup）
+## 3. Ioc依賴查找（Dependency Loopup）
 
 ![20210402105648](https://abram.oss-cn-shanghai.aliyuncs.com/blog/drunkard/20210402105648.png)
 
-### 5.1. 通過名稱查找
+### 3.1. 通過名稱查找
 
 
-### 5.2. 通過類型查找
+### 3.2. 通過類型查找
 
-#### 5.2.1. 單個Bean對象
+#### 3.2.1. 單個Bean對象
 
-#### 5.2.2. 集合Bean對象
+#### 3.2.2. 集合Bean對象
 
-#### 按照注解查找
+#### 3.2.3. 按照注解查找
 
+## 4. Ioc依賴注入（Dependency Injection）
 
+### 4.1. 手動方式
 
-## 6. Ioc依賴注入（Dependency Injection）
+### 4.2. autowire方式
 
-
-
-## 7. Ioc依賴来源（Dependency Sources）
-
-
-
-## 8. Bean作用域（Bean Scopes）
+### 
 
 
-
-## 9. Bean生命周期（Bean Lifecycle）
+## 5. Ioc依賴来源（Dependency Sources）
 
 
 
-## 10. 配置元信息（Configuration Metadata）
+## 6. Bean作用域（Bean Scopes）
 
 
 
-## 11. 资源管理（Resources）
+## 7. Bean生命周期（Bean Lifecycle）
 
 
 
-## 12. Sping国际化
+## 8. 配置元信息（Configuration Metadata）
 
 
 
-## 13. 校验（Validation）
+## 9. 资源管理（Resources）
 
 
 
-## 14. 数据绑定（Data Binding）
+## 10. Sping国际化
 
 
 
-## 15. 类型转换（Type Conversion）
+## 11. 校验（Validation）
 
 
 
-## 16. 泛型处理（Generic Resolution）
+## 12. 数据绑定（Data Binding）
 
 
 
-## 17. Spring事件（Events）
+## 13. 类型转换（Type Conversion）
 
 
 
-## 18. Annotations
+## 14. 泛型处理（Generic Resolution）
 
 
 
-## 19. Environment抽象
+## 15. Spring事件（Events）
 
 
 
-## 20. 应用上下文生命周期（Container Lifecycle）
+## 16. Annotations
+
+
+
+## 17. Environment抽象
+
+
+
+## 18. 应用上下文生命周期（Container Lifecycle）
 
 
 

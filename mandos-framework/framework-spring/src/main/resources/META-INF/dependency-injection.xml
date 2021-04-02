@@ -7,5 +7,6 @@
 
     <import resource="dependency-lookup.xml"/>
 
-    
+    <bean id="bookRepository" class="xyz.wongs.weathertop.ioc.dependency.lookup.overview.repository.BookRepository" autowire="byType"/>
+
 </beans>
