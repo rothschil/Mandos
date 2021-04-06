@@ -1,7 +1,0 @@
-archivesBaseName = 'framework-spring'
-
-dependencies {
-
-    compile('org.springframework:spring-context:5.2.2.RELEASE')
-
-}

@@ -1,0 +1,6 @@
+archivesBaseName = 'spring-introduction'
+
+
+dependencies {
+    implementation project(':mandos-framework:framework-spring:spring-introduction')
+}

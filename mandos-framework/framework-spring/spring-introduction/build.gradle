@@ -1,0 +1,7 @@
+archivesBaseName = 'spring-introduction'
+
+dependencies {
+
+    compile('org.springframework:spring-context:5.2.2.RELEASE')
+    compile('org.springframework:spring-test:5.2.2.RELEASE')
+}
