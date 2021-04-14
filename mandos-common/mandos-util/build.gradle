@@ -21,6 +21,7 @@ dependencies {
             libraries.'validation-api',
             libraries.'javax.servlet-api',
             libraries.'spring-tx',
+            libraries.'spring-web',
             libraries.'fastjson',
             libraries.'guava',
             libraries.'hutool-all',

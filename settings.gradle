@@ -4,5 +4,7 @@ include 'mandos-framework:framework-spring:spring-introduction'
 include 'mandos-framework:framework-spring:spring-bean'
 include 'mandos-rpc:rpc-netty'
 include 'mandos-rpc'
-include 'mandos-util'
+include 'mandos-common'
+include 'mandos-common:mandos-util'
+include 'mandos-common:mandos-entertainment'
 

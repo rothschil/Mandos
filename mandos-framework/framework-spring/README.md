@@ -36,6 +36,8 @@
     - [3.4. Spring Bean 别名](#34-spring-bean-别名)
     - [3.5. 注册Spring Bean](#35-注册spring-bean)
     - [3.6. 实例化Spring Bean](#36-实例化spring-bean)
+        - [3.6.1. 常规方式](#361-常规方式)
+        - [3.6.2. 特殊方式](#362-特殊方式)
     - [3.7. 初始化Spring Bean](#37-初始化spring-bean)
     - [3.8. 延迟初始化Spring Bean](#38-延迟初始化spring-bean)
     - [3.9. 销毁Spring Bean](#39-销毁spring-bean)
@@ -215,8 +217,249 @@ Spring Framework 2.5
 - 注解配置: @Bean、@Compact、@Import
 
 - Java API配置信息
+    - 命名方式
+
+~~~
+BeanDefinitionRegistry#registerBeanDefinition(String,BeanDefinition)
+~~~
+
+    - 非命名方式
+
+~~~
+BeanDefinitionReaderUtils#registerWithGeneratedName(AbstractBeanDefinition,BeanDefinitionRegistry)
+~~~
+    - 配置类方式
+
+~~~
+AnnotatedBeanDefinitionReader#register(Class...)
+~~~
 
 ### 3.6. 实例化Spring Bean
+
+#### 3.6.1. 常规方式
+
+- 通过构造器（配置元信息：XML、Java 注解和Java API ）
+- 通过静态工厂方法（配置元信息：XML 和Java API ）
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="dependency-injection.xml"/>
+
+    <bean id="instace-static-method" class="xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book" factory-method="initBean"/>
+
+</beans>
+~~~
+
+~~~java
+ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/META-INF/bean-instantiation.xml");
+
+// 1、靜態方法方式實例化Bean
+Book staticBook = context.getBean("instace-static-method", Book.class);
+
+System.out.println("【靜態方法方式實例化Bean】"+staticBook+" ;Hash = "+staticBook.hashCode());
+~~~
+
+- 通过Bean 工厂方法（配置元信息：XML和Java API ）
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="dependency-injection.xml"/>
+
+    <bean id="instace-static-method" class="xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book" factory-method="initBean"/>
+
+    <bean id="instace-bean-factory" factory-bean="bookFactory" factory-method="initBean"/>
+
+    <bean id="bookFactory" class="xyz.wongs.weathertop.bean.instantiation.factory.DefaultBookFactory"/>
+
+</beans>
+~~~
+
+~~~java
+public interface BookFactory {
+
+    default Book initBean(){
+        return Book.initBean();
+    }
+}
+
+
+public class DefaultBookFactory implements BookFactory {
+
+}
+
+public class BeanInstantiationDemo {
+
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/META-INF/bean-instantiation.xml");
+
+        // 1、靜態方法方式實例化Bean
+        Book staticBook = context.getBean("instace-static-method", Book.class);
+
+
+        // 2、工廠方法方式實例化Bean
+        Book beanFactoryBook = context.getBean("instace-bean-factory", Book.class);
+
+        System.out.println("【靜態方法方式實例化Bean】"+staticBook+" ;Hash = "+staticBook.hashCode());
+
+        System.out.println("【工廠方法方式實例化Bean】"+beanFactoryBook+" ;Hash = "+beanFactoryBook.hashCode());
+
+        System.out.println(staticBook==beanFactoryBook);
+    }
+
+}
+
+~~~
+
+- 通过FactoryBean（配置元信息：XML、Java 注解和Java API ）
+
+~~~java
+public class FactoryBeanBook implements FactoryBean<Book> {
+
+    @Override
+    public Book getObject() throws Exception {
+        return Book.initBean();
+    }
+
+    @Override
+    public Class<Book> getObjectType() {
+        return Book.class;
+    }
+}
+
+public class BeanInstantiationDemo {
+
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/META-INF/bean-instantiation.xml");
+
+        // 1、靜態方法方式實例化Bean
+        Book staticBook = context.getBean("instace-static-method", Book.class);
+
+
+        // 2、工廠方法方式實例化Bean
+        Book beanFactoryBook = context.getBean("instace-bean-factory", Book.class);
+
+        // 3、通过FactoryBean方式實例化Bean
+        Book factoryBeanBook = context.getBean("instace-factory-bean", Book.class);
+
+        System.out.println("【靜態方法方式實例化Bean】"+staticBook+" ;Hash = "+staticBook.hashCode());
+
+        System.out.println("【工廠方法方式實例化Bean】"+beanFactoryBook+" ;Hash = "+beanFactoryBook.hashCode());
+
+        System.out.println("【通过FactoryBean方式實例化Bean】"+factoryBeanBook+" ;Hash = "+factoryBeanBook.hashCode());
+
+        System.out.println(staticBook==beanFactoryBook);
+        System.out.println(beanFactoryBook==factoryBeanBook);
+    }
+
+}
+~~~
+
+~~~xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="dependency-injection.xml"/>
+
+    <bean id="instace-static-method" class="xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book" factory-method="initBean"/>
+
+    <bean id="instace-bean-factory" factory-bean="bookFactory" factory-method="initBean"/>
+
+    <bean id="bookFactory" class="xyz.wongs.weathertop.bean.instantiation.factory.DefaultBookFactory"/>
+
+    <bean id="instace-factory-bean" class="xyz.wongs.weathertop.bean.instantiation.factory.FactoryBeanBook"/>
+
+</beans>
+~~~~
+
+#### 3.6.2. 特殊方式
+
+- 通过ServiceLoaderFactoryBean（配置元信息：XML、Java 注解和Java API ）
+
+需要在路径 `META-INF/services/` 下创建文件
+
+![20210407143822](https://abram.oss-cn-shanghai.aliyuncs.com/blog/drunkard/20210407143822.png)
+
+![20210407145729](https://abram.oss-cn-shanghai.aliyuncs.com/blog/drunkard/20210407145729.png)
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="specialLoaderBookFactoryBean" class="org.springframework.beans.factory.serviceloader.ServiceLoaderFactoryBean">
+        <property name="serviceType" value="xyz.wongs.weathertop.bean.instantiation.factory.BookFactory" />
+    </bean>
+</beans>
+~~~
+
+~~~java
+public class SpecialBeanInstantiationDemo {
+
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/META-INF/special-bean-instantiation.xml");
+        ServiceLoader<BookFactory> loader = context.getBean("specialLoaderBookFactoryBean",ServiceLoader.class);
+        displayServiceLoader(loader);
+//        demoServiceLoader();
+    }
+
+    public static void demoServiceLoader(){
+        ServiceLoader<BookFactory> loader = ServiceLoader.load(BookFactory.class,Thread.currentThread().getContextClassLoader());
+        displayServiceLoader(loader);
+    }
+
+    public static void displayServiceLoader(ServiceLoader<BookFactory> loader){
+        Iterator<BookFactory> iterator = loader.iterator();
+        while (iterator.hasNext()){
+            BookFactory factory = iterator.next();
+            System.out.println(factory.initBean());
+        }
+    }
+}
+
+~~~
+
+- 通过AutowireCapableBeanFactory#createBean(java.lang.Class, int, boolean)
+
+~~~java
+public class SpecialBeanInstantiationDemo {
+
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/META-INF/special-bean-instantiation.xml");
+        // 通过 ApplicationContext 返回 AutowireCapableBeanFactory
+        AutowireCapableBeanFactory beanFactory  = context.getAutowireCapableBeanFactory();
+
+        BookFactory factory = beanFactory.createBean(DefaultBookFactory.class);
+        System.out.println(factory.initBean());
+
+    }
+
+}
+~~~
+
+- 通过BeanDefinitionRegistry#registerBeanDefinition(String,BeanDefinition)
+
+
+
 ### 3.7. 初始化Spring Bean
 ### 3.8. 延迟初始化Spring Bean
 ### 3.9. 销毁Spring Bean

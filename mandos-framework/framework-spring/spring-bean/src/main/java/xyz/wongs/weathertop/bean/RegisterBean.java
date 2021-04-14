@@ -29,18 +29,17 @@ public class RegisterBean {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         context.register(RegisterBean.class);
         // 二、API配置方式
-        // 2.1 不提供 BeanName
+        // 2.1 非命名方式
         registerBookBean(context);
-        // 2.2 自定义 BeanName
+        // 2.2 命名方式
         registerBookBean("SamBook",context);
-
         context.refresh();
         // 一、注解方式配置Bean
         System.out.println("【ConfigureBean Beans 有】"+ context.getBeansOfType(ConfigureBean.class));
 
         Map<String ,Book> bookMap = context.getBeansOfType(Book.class);
 
-        System.out.print("【Book Beans 有】"+ bookMap.size()  +" /n 【内容有】"+ context.getBeansOfType(Book.class));
+        System.out.print("【Book Beans 有】"+ bookMap.size()  +" \n 【内容有】"+ context.getBeansOfType(Book.class));
 
         context.close();
     }

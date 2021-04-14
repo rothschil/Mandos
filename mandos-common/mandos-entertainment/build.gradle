@@ -1,0 +1,13 @@
+archivesBaseName = 'mandos-entertainment'
+
+dependencies {
+    implementation project(':mandos-common:mandos-util')
+    compile("ws.schild:jave-core:2.4.6")
+    compile("ws.schild:jave-native-win32:2.4.6")
+    compile("ws.schild:jave-native-win64:2.4.6")
+    compile("ws.schild:jave-native-linux64:2.4.6")
+    compile("ws.schild:jave-native-osx64:2.4.6")
+    compile("net.bramp.ffmpeg:ffmpeg:0.6.2")
+}
+
+jar.enabled = true

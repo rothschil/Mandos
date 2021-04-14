@@ -18,6 +18,13 @@ public class Book {
                 '}';
     }
 
+    public static Book initBean(){
+        Book book = new Book();
+        book.setId(2L);
+        book.setName("Thinking In C++");
+        return  book;
+    }
+
     private Long id ;
 
     private String name;

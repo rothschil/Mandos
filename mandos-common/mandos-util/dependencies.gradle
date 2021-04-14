@@ -29,6 +29,7 @@ ext.libraries = [
     'validation-api':'javax.validation:validation-api:2.0.1.Final',
     'javax.servlet-api':'javax.servlet:javax.servlet-api:4.0.1',
     'spring-tx':"org.springframework:spring-tx:${versions.springCoreVersion}",
+    'spring-web':"org.springframework:spring-web:${versions.springCoreVersion}",
     'fastjson':'com.alibaba:fastjson:1.2.74',
     'guava':'com.google.guava:guava:23.0-rc1',
     'hutool-all':'cn.hutool:hutool-all:5.4.1',

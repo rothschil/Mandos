@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="dependency-injection.xml"/>
+
+    <bean id="instace-static-method" class="xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book" factory-method="initBean"/>
+
+    <bean id="instace-bean-factory" factory-bean="bookFactory" factory-method="initBean"/>
+
+    <bean id="bookFactory" class="xyz.wongs.weathertop.bean.instantiation.factory.DefaultBookFactory"/>
+
+    <bean id="instace-factory-bean" class="xyz.wongs.weathertop.bean.instantiation.factory.FactoryBeanBook"/>
+
+</beans>
