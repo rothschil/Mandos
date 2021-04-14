@@ -458,12 +458,114 @@ public class SpecialBeanInstantiationDemo {
 
 - 通过BeanDefinitionRegistry#registerBeanDefinition(String,BeanDefinition)
 
-
-
 ### 3.7. 初始化Spring Bean
+
+![20210414095730](https://abram.oss-cn-shanghai.aliyuncs.com/blog/drunkard/20210414095730.png)
+
+~~~java
+public class DefaultBookFactory implements BookFactory, InitializingBean {
+
+    private static Log LOG  = LogFactory.getLog(DefaultBookFactory.class);
+
+    @PostConstruct
+    public void postConstruct() throws Exception {
+        LOG.info("【postConstruct】 初始化中");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LOG.info("【afterPropertiesSet】 初始化中");
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        LOG.info("【finalize】 初始化中");
+    }
+
+    public void initBookFactory() {
+        LOG.info("【initBookFactory】 自定义方法初始化");
+    }
+}
+
+
+@Configuration
+public class InitializingBeanDemo {
+
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(InitializingBeanDemo.class);
+        context.refresh();
+        System.out.println("启动上下文");
+        BookFactory factory  = context.getBean(BookFactory.class);
+        System.out.println("准备关闭上下文");
+        context.close();
+        System.out.println("关闭上下文");
+    }
+
+    @Bean(initMethod = "initBookFactory")
+    public BookFactory bookFactory(){
+        return new DefaultBookFactory();
+    }
+}
+
+
+~~~
+
 ### 3.8. 延迟初始化Spring Bean
+
+`@Lazy` 默认是 延迟加载，所以无需延迟，则不用加这个注解
+
+~~~java
+
+@Configuration
+public class InitializingBeanDemo {
+
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(InitializingBeanDemo.class);
+        context.refresh();
+        System.out.println("启动上下文");
+        BookFactory factory  = context.getBean(BookFactory.class);
+        System.out.println(factory);
+        System.out.println("准备关闭上下文");
+        context.close();
+        System.out.println("关闭上下文");
+    }
+
+    @Bean(initMethod = "initBookFactory")
+    @Lazy
+    public BookFactory bookFactory(){
+        return new DefaultBookFactory();
+    }
+}
+~~~
+
+![非延迟初始化](https://abram.oss-cn-shanghai.aliyuncs.com/blog/mandos/spring/20210414111708.png)
+
+![延迟初始化](https://abram.oss-cn-shanghai.aliyuncs.com/blog/mandos/spring/20210414111636.png)
+
+~~~java
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+context.register(InitializingBeanDemo.class);
+context.refresh();
+~~~
+
+题外话，`context.refresh()` 中 方法 `finishBeanFactoryInitialization`，只处理非延迟初始化的 `Bean`，对于容器内置 Bean以及需要延迟初始化的则不在此处初始化。
+
+![20210414100804](https://abram.oss-cn-shanghai.aliyuncs.com/blog/drunkard/20210414100804.png)
+
+![20210414100851](https://abram.oss-cn-shanghai.aliyuncs.com/blog/drunkard/20210414100851.png)
+
+这一点需要注意。
+
 ### 3.9. 销毁Spring Bean
+
+
+
+
 ### 3.10. 垃圾回收Spring Bean
+
+
 
 ## 4. Bean作用域（Bean Scopes）
 
