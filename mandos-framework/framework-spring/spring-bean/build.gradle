@@ -1,6 +1,7 @@
-archivesBaseName = 'spring-introduction'
+archivesBaseName = 'spring-bean'
 
 
 dependencies {
     implementation project(':mandos-framework:framework-spring:spring-introduction')
 }
+jar.enabled = true

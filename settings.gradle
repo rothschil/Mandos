@@ -2,9 +2,11 @@ include 'mandos-framework'
 include 'mandos-framework:framework-spring'
 include 'mandos-framework:framework-spring:spring-introduction'
 include 'mandos-framework:framework-spring:spring-bean'
+include 'mandos-framework:framework-spring:dependency-lookup'
 include 'mandos-rpc:rpc-netty'
 include 'mandos-rpc'
 include 'mandos-common'
 include 'mandos-common:mandos-util'
 include 'mandos-common:mandos-entertainment'
+
 

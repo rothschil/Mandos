@@ -3,6 +3,7 @@ package xyz.wongs.weathertop.bean.instantiation;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import xyz.wongs.weathertop.bean.instantiation.factory.BookFactory;
 import xyz.wongs.weathertop.bean.instantiation.factory.DefaultBookFactory;
 
@@ -30,6 +31,7 @@ public class InitializingBeanDemo {
     }
 
     @Bean(initMethod = "initBookFactory",destroyMethod = "doDestroy")
+    @Lazy
     public BookFactory bookFactory(){
         return new DefaultBookFactory();
     }

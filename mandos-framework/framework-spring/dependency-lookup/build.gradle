@@ -1,0 +1,6 @@
+archivesBaseName = 'dependency-lookup'
+
+dependencies {
+    implementation project(':mandos-framework:framework-spring:spring-introduction')
+}
+jar.enabled = true

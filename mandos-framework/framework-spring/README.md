@@ -1,60 +1,68 @@
 <!-- TOC -->
 
 - [1. 总览](#1-总览)
-    - [1.1. 编程模型](#11-编程模型)
-    - [1.2. 環境準備](#12-環境準備)
-    - [1.3. 特性總覽](#13-特性總覽)
-    - [1.4. 版本特性](#14-版本特性)
-    - [1.5. 模塊化設計](#15-模塊化設計)
+  - [1.1. 编程模型](#11-编程模型)
+  - [1.2. 環境準備](#12-環境準備)
+  - [1.3. 特性總覽](#13-特性總覽)
+  - [1.4. 版本特性](#14-版本特性)
+  - [1.5. 模塊化設計](#15-模塊化設計)
 - [2. Spring Ioc基本概述](#2-spring-ioc基本概述)
-    - [2.1. 概要说明](#21-概要说明)
-        - [2.1.1. 实施技术](#211-实施技术)
-        - [2.1.2. 輕量級容器鑒定標準](#212-輕量級容器鑒定標準)
-        - [2.1.3. 好處](#213-好處)
-    - [2.2. 依賴注入和依賴查找比较](#22-依賴注入和依賴查找比较)
-        - [2.2.1. Ioc依賴查找（Dependency Loopup）](#221-ioc依賴查找dependency-loopup)
-            - [2.2.1.1. 通過名稱查找](#2211-通過名稱查找)
-            - [2.2.1.2. 通過類型查找](#2212-通過類型查找)
-                - [2.2.1.2.1. 單個Bean對象](#22121-單個bean對象)
-                - [2.2.1.2.2. 集合Bean對象](#22122-集合bean對象)
-                - [2.2.1.2.3. 按照注解查找](#22123-按照注解查找)
-        - [2.2.2. Ioc依賴注入（Dependency Injection）](#222-ioc依賴注入dependency-injection)
-            - [2.2.2.1. 手動方式](#2221-手動方式)
-            - [2.2.2.2. autowire方式](#2222-autowire方式)
-        - [2.2.3. Ioc依賴来源（Dependency Sources）](#223-ioc依賴来源dependency-sources)
-        - [2.2.4. 配置元信息](#224-配置元信息)
-        - [2.2.5. IOC容器](#225-ioc容器)
-        - [2.2.6. 容器上下文](#226-容器上下文)
-        - [2.2.7. 使用Spring IOC容器](#227-使用spring-ioc容器)
-        - [2.2.8. Spring IOC容器生命周期](#228-spring-ioc容器生命周期)
+  - [2.1. 概要说明](#21-概要说明)
+    - [2.1.1. 实施技术](#211-实施技术)
+    - [2.1.2. 輕量級容器鑒定標準](#212-輕量級容器鑒定標準)
+    - [2.1.3. 好處](#213-好處)
+  - [2.2. 依賴注入和依賴查找比较](#22-依賴注入和依賴查找比较)
+    - [2.2.1. Ioc依賴查找（Dependency Loopup）](#221-ioc依賴查找dependency-loopup)
+      - [2.2.1.1. 通過名稱查找](#2211-通過名稱查找)
+      - [2.2.1.2. 通過類型查找](#2212-通過類型查找)
+        - [2.2.1.2.1. 單個Bean對象](#22121-單個bean對象)
+        - [2.2.1.2.2. 集合Bean對象](#22122-集合bean對象)
+        - [2.2.1.2.3. 按照注解查找](#22123-按照注解查找)
+    - [2.2.2. Ioc依賴注入（Dependency Injection）](#222-ioc依賴注入dependency-injection)
+      - [2.2.2.1. 手動方式](#2221-手動方式)
+      - [2.2.2.2. autowire方式](#2222-autowire方式)
+    - [2.2.3. Ioc依賴来源（Dependency Sources）](#223-ioc依賴来源dependency-sources)
+    - [2.2.4. 配置元信息](#224-配置元信息)
+    - [2.2.5. IOC容器](#225-ioc容器)
+    - [2.2.6. 容器上下文](#226-容器上下文)
+    - [2.2.7. 使用Spring IOC容器](#227-使用spring-ioc容器)
+    - [2.2.8. Spring IOC容器生命周期](#228-spring-ioc容器生命周期)
 - [3. Bean基础](#3-bean基础)
-    - [3.1. 定义Bean](#31-定义bean)
-    - [3.2. BeanDefinition元信息](#32-beandefinition元信息)
-        - [3.2.1. BeanDefinitionBuilder](#321-beandefinitionbuilder)
-        - [3.2.2. AbstractBeanDefinition](#322-abstractbeandefinition)
-    - [3.3. 命名Spring Bean](#33-命名spring-bean)
-    - [3.4. Spring Bean 别名](#34-spring-bean-别名)
-    - [3.5. 注册Spring Bean](#35-注册spring-bean)
-    - [3.6. 实例化Spring Bean](#36-实例化spring-bean)
-        - [3.6.1. 常规方式](#361-常规方式)
-        - [3.6.2. 特殊方式](#362-特殊方式)
-    - [3.7. 初始化Spring Bean](#37-初始化spring-bean)
-    - [3.8. 延迟初始化Spring Bean](#38-延迟初始化spring-bean)
-    - [3.9. 销毁Spring Bean](#39-销毁spring-bean)
-    - [3.10. 垃圾回收Spring Bean](#310-垃圾回收spring-bean)
-- [4. Bean作用域（Bean Scopes）](#4-bean作用域bean-scopes)
-- [5. Bean生命周期（Bean Lifecycle）](#5-bean生命周期bean-lifecycle)
-- [6. 配置元信息（Configuration Metadata）](#6-配置元信息configuration-metadata)
-- [7. 资源管理（Resources）](#7-资源管理resources)
-- [8. Sping国际化](#8-sping国际化)
-- [9. 校验（Validation）](#9-校验validation)
-- [10. 数据绑定（Data Binding）](#10-数据绑定data-binding)
-- [11. 类型转换（Type Conversion）](#11-类型转换type-conversion)
-- [12. 泛型处理（Generic Resolution）](#12-泛型处理generic-resolution)
-- [13. Spring事件（Events）](#13-spring事件events)
-- [14. Annotations](#14-annotations)
-- [15. Environment抽象](#15-environment抽象)
-- [16. 应用上下文生命周期（Container Lifecycle）](#16-应用上下文生命周期container-lifecycle)
+  - [3.1. 定义Bean](#31-定义bean)
+  - [3.2. BeanDefinition元信息](#32-beandefinition元信息)
+    - [3.2.1. BeanDefinitionBuilder](#321-beandefinitionbuilder)
+    - [3.2.2. AbstractBeanDefinition](#322-abstractbeandefinition)
+  - [3.3. 命名Spring Bean](#33-命名spring-bean)
+  - [3.4. Spring Bean 别名](#34-spring-bean-别名)
+  - [3.5. 注册Spring Bean](#35-注册spring-bean)
+  - [3.6. 实例化Spring Bean](#36-实例化spring-bean)
+    - [3.6.1. 常规方式](#361-常规方式)
+    - [3.6.2. 特殊方式](#362-特殊方式)
+  - [3.7. 初始化Spring Bean](#37-初始化spring-bean)
+  - [3.8. 延迟初始化Spring Bean](#38-延迟初始化spring-bean)
+  - [3.9. 销毁Spring Bean](#39-销毁spring-bean)
+  - [3.10. 垃圾回收Spring Bean](#310-垃圾回收spring-bean)
+- [4. 依赖查找](#4-依赖查找)
+  - [4.1. 单一类型查找](#41-单一类型查找)
+  - [4.2. 集合类型查找](#42-集合类型查找)
+  - [4.3. 层次性依赖查找](#43-层次性依赖查找)
+  - [4.4. 延迟依赖查找](#44-延迟依赖查找)
+  - [4.5. 安全依赖查找](#45-安全依赖查找)
+  - [4.6. 内建可查找的依赖](#46-内建可查找的依赖)
+  - [4.7. 依赖查找中的经典异常](#47-依赖查找中的经典异常)
+- [5. Bean作用域（Bean Scopes）](#5-bean作用域bean-scopes)
+- [6. Bean生命周期（Bean Lifecycle）](#6-bean生命周期bean-lifecycle)
+- [7. 配置元信息（Configuration Metadata）](#7-配置元信息configuration-metadata)
+- [8. 资源管理（Resources）](#8-资源管理resources)
+- [9. Sping国际化](#9-sping国际化)
+- [10. 校验（Validation）](#10-校验validation)
+- [11. 数据绑定（Data Binding）](#11-数据绑定data-binding)
+- [12. 类型转换（Type Conversion）](#12-类型转换type-conversion)
+- [13. 泛型处理（Generic Resolution）](#13-泛型处理generic-resolution)
+- [14. Spring事件（Events）](#14-spring事件events)
+- [15. Annotations](#15-annotations)
+- [16. Environment抽象](#16-environment抽象)
+- [17. 应用上下文生命周期（Container Lifecycle）](#17-应用上下文生命周期container-lifecycle)
 
 <!-- /TOC -->
 
@@ -560,62 +568,85 @@ context.refresh();
 
 ### 3.9. 销毁Spring Bean
 
-
-
-
 ### 3.10. 垃圾回收Spring Bean
 
+## 4. 依赖查找
+
+### 4.1. 单一类型查找
+
+![20210414155115](https://abram.oss-cn-shanghai.aliyuncs.com/blog/mandos/spring/20210414155115.png)
+
+### 4.2. 集合类型查找
+
+![20210414155048](https://abram.oss-cn-shanghai.aliyuncs.com/blog/mandos/spring/20210414155048.png)
+
+### 4.3. 层次性依赖查找
+
+![20210414155837](https://abram.oss-cn-shanghai.aliyuncs.com/blog/mandos/spring/20210414155837.png)
+
+![类结构图](https://abram.oss-cn-shanghai.aliyuncs.com/blog/mandos/spring/20210414161309.png)
+
+### 4.4. 延迟依赖查找
+
+![20210421155958](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210421155958.png)
 
 
-## 4. Bean作用域（Bean Scopes）
+### 4.5. 安全依赖查找
 
 
+### 4.6. 内建可查找的依赖
 
-## 5. Bean生命周期（Bean Lifecycle）
+### 4.7. 依赖查找中的经典异常
 
-
-
-## 6. 配置元信息（Configuration Metadata）
-
-
-
-## 7. 资源管理（Resources）
-
-
-
-## 8. Sping国际化
-
-
-
-## 9. 校验（Validation）
-
-
-
-## 10. 数据绑定（Data Binding）
-
-
-
-## 11. 类型转换（Type Conversion）
-
-
-
-## 12. 泛型处理（Generic Resolution）
+## 5. Bean作用域（Bean Scopes）
 
 
 
-## 13. Spring事件（Events）
+## 6. Bean生命周期（Bean Lifecycle）
 
 
 
-## 14. Annotations
+## 7. 配置元信息（Configuration Metadata）
 
 
 
-## 15. Environment抽象
+## 8. 资源管理（Resources）
 
 
 
-## 16. 应用上下文生命周期（Container Lifecycle）
+## 9. Sping国际化
+
+
+
+## 10. 校验（Validation）
+
+
+
+## 11. 数据绑定（Data Binding）
+
+
+
+## 12. 类型转换（Type Conversion）
+
+
+
+## 13. 泛型处理（Generic Resolution）
+
+
+
+## 14. Spring事件（Events）
+
+
+
+## 15. Annotations
+
+
+
+## 16. Environment抽象
+
+
+
+## 17. 应用上下文生命周期（Container Lifecycle）
 
 
 
