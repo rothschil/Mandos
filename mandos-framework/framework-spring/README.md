@@ -591,8 +591,142 @@ context.refresh();
 ![20210421155958](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210421155958.png)
 
 
+ObjectProvider 
+
 ### 4.5. 安全依赖查找
 
+![20210422105512](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210422105512.png)
+
+
+~~~java
+public class TypeSafetyDependencyLookup {
+
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(ObjectProviderDemo.class);
+        context.refresh();
+        // BeanFactory#getBean
+        disableBeanFactoryGetBean(context);
+        // ObjectFactory#getObject
+        disableObjectFactoryGetBean(context);
+        // ObjectProvider#getIfAvailable
+        disableObjectProviderGetIfAvailable(context);
+        // ListableBeanFactory#getBeansOfType
+        disableListableBeanFactoryGetBeansOfType(context);
+        // ObjectProvider#stream
+        disableObjectProviderByStream(context);
+        context.close();
+    }
+
+
+    /**
+     * @Description
+     * @param context
+     * @return void
+     * @throws
+     * @date 2021/4/22 11:15
+     */
+    private static void disableObjectProviderByStream(AnnotationConfigApplicationContext context) {
+        ObjectProvider<Book> objectProvider = context.getBeanProvider(Book.class);
+        printBeanException("ObjectProvider",()->{
+            objectProvider.stream().forEach(System.out::println);
+        });
+    }
+
+    /**
+     * @Description
+     * @param context
+     * @return void
+     * @throws
+     * @date 2021/4/22 11:15
+     */
+    private static void disableListableBeanFactoryGetBeansOfType(AnnotationConfigApplicationContext context) {
+        ListableBeanFactory beanFactory = context.getBeanFactory();
+        printBeanException("ListableBeanFactory",()->{
+            beanFactory.getBeansOfType(Book.class);
+        });
+    }
+
+    /**
+     * @Description
+     * @param context
+     * @return void
+     * @throws
+     * @date 2021/4/22 11:15
+     */
+    private static void disableObjectProviderGetIfAvailable(AnnotationConfigApplicationContext context) {
+        ObjectProvider<Book> objectProvider = context.getBeanProvider(Book.class);
+        printBeanException("ObjectProvider",()->{
+            objectProvider.getIfAvailable();
+        });
+    }
+
+    /**
+     * @Description
+     * @param context
+     * @return void
+     * @throws
+     * @date 2021/4/22 11:15
+     */
+    private static void disableObjectFactoryGetBean(AnnotationConfigApplicationContext context) {
+        ObjectFactory<Book> bookObjectFactory = context.getBeanProvider(Book.class);
+        printBeanException("ObjectFactory",()->{
+            bookObjectFactory.getObject();
+        });
+    }
+
+    /**
+     * @Description
+     * @param beanFactory
+     * @return void
+     * @throws
+     * @date 2021/4/22 11:14
+     */
+    private static void disableBeanFactoryGetBean(BeanFactory beanFactory) {
+        printBeanException("BeanFactory",()->{
+            Book book = beanFactory.getBean(Book.class);
+        });
+    }
+
+    public static void printBeanException(String resource ,Runnable runnable){
+        try {
+            System.err.println("===============================");
+            System.err.println(resource);
+            runnable.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+~~~
+
+~~~log
+===============================
+BeanFactory
+org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book' available
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:351)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:342)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1126)
+	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.lambda$disableBeanFactoryGetBean$4(TypeSafetyDependencyLookup.java:103)
+	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.printBeanException(TypeSafetyDependencyLookup.java:111)
+	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.disableBeanFactoryGetBean(TypeSafetyDependencyLookup.java:102)
+	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.main(TypeSafetyDependencyLookup.java:25)
+===============================
+ObjectFactory
+org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book' available
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory$1.getObject(DefaultListableBeanFactory.java:370)
+	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.lambda$disableObjectFactoryGetBean$3(TypeSafetyDependencyLookup.java:90)
+	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.printBeanException(TypeSafetyDependencyLookup.java:111)
+	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.disableObjectFactoryGetBean(TypeSafetyDependencyLookup.java:89)
+	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.main(TypeSafetyDependencyLookup.java:27)
+===============================
+ObjectProvider
+===============================
+ListableBeanFactory
+===============================
+ObjectProvider
+~~~
 
 ### 4.6. 内建可查找的依赖
 
