@@ -730,7 +730,15 @@ ObjectProvider
 
 ### 4.6. 内建可查找的依赖
 
+![AbstractApplicationContext内建可查找的依赖Bean](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210422143946.png)
+
+![注解驱动Spring 应用上下文内建可查找的依赖](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210422151201.png)
+
+![注解驱动Spring 应用上下文内建可查找的依赖](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210422151308.png)
+
 ### 4.7. 依赖查找中的经典异常
+
+![BeansException 子类型](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210422153727.png)
 
 ## 5. Bean作用域（Bean Scopes）
 
