@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.dependency.loopup;
+package xyz.wongs.weathertop.dependency.injection;
 
 import org.springframework.context.LifecycleProcessor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

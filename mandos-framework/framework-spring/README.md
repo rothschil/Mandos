@@ -13,6 +13,9 @@
       - [5.2.3. 限制和不足](#523-限制和不足)
     - [5.3. 依赖注入方式](#53-依赖注入方式)
       - [5.3.1. setter注入](#531-setter注入)
+        - [5.3.1.1. XML资源配置注入](#5311-xml资源配置注入)
+        - [5.3.1.2. Java注解配置注入](#5312-java注解配置注入)
+        - [5.3.1.3. API配置元信息](#5313-api配置元信息)
       - [5.3.2. 构造器注入](#532-构造器注入)
       - [5.3.3. 字段注入](#533-字段注入)
       - [5.3.4. 方法注入](#534-方法注入)
@@ -685,18 +688,18 @@ org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying b
 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:351)
 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:342)
 	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1126)
-	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.lambda$disableBeanFactoryGetBean$4(TypeSafetyDependencyLookup.java:103)
-	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.printBeanException(TypeSafetyDependencyLookup.java:111)
-	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.disableBeanFactoryGetBean(TypeSafetyDependencyLookup.java:102)
-	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.main(TypeSafetyDependencyLookup.java:25)
+	at xyz.wongs.weathertop.dependency.injection.TypeSafetyDependencyLookup.lambda$disableBeanFactoryGetBean$4(TypeSafetyDependencyLookup.java:103)
+	at xyz.wongs.weathertop.dependency.injection.TypeSafetyDependencyLookup.printBeanException(TypeSafetyDependencyLookup.java:111)
+	at xyz.wongs.weathertop.dependency.injection.TypeSafetyDependencyLookup.disableBeanFactoryGetBean(TypeSafetyDependencyLookup.java:102)
+	at xyz.wongs.weathertop.dependency.injection.TypeSafetyDependencyLookup.main(TypeSafetyDependencyLookup.java:25)
 ===============================
 ObjectFactory
 org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book' available
 	at org.springframework.beans.factory.support.DefaultListableBeanFactory$1.getObject(DefaultListableBeanFactory.java:370)
-	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.lambda$disableObjectFactoryGetBean$3(TypeSafetyDependencyLookup.java:90)
-	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.printBeanException(TypeSafetyDependencyLookup.java:111)
-	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.disableObjectFactoryGetBean(TypeSafetyDependencyLookup.java:89)
-	at xyz.wongs.weathertop.dependency.loopup.TypeSafetyDependencyLookup.main(TypeSafetyDependencyLookup.java:27)
+	at xyz.wongs.weathertop.dependency.injection.TypeSafetyDependencyLookup.lambda$disableObjectFactoryGetBean$3(TypeSafetyDependencyLookup.java:90)
+	at xyz.wongs.weathertop.dependency.injection.TypeSafetyDependencyLookup.printBeanException(TypeSafetyDependencyLookup.java:111)
+	at xyz.wongs.weathertop.dependency.injection.TypeSafetyDependencyLookup.disableObjectFactoryGetBean(TypeSafetyDependencyLookup.java:89)
+	at xyz.wongs.weathertop.dependency.injection.TypeSafetyDependencyLookup.main(TypeSafetyDependencyLookup.java:27)
 ===============================
 ObjectProvider
 ===============================
@@ -721,17 +724,172 @@ ObjectProvider
 
 ### 5.1. 依赖注入模式和类型
 
+
+![20210423102844](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210423102844.png)
+
+
+![20210423102904](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210423102904.png)
+
 ### 5.2. 自动绑定
 
 #### 5.2.1. 背景
 
+`Spring` 容器可以自动装配协作 `bean` 之间的关系，可以让 `Spring` 通过检查内容自动为您的 `bean` 解决协作者（其他 `bean` ） `ApplicationContext`。
+
+优点：
+
+- 自动装配可以大大减少指定属性或构造函数参数的需要
+- 随着对象的发展，自动装配可以更新配置
+
 #### 5.2.2. 模式
+
+![20210423103301](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210423103301.png)
+
+
+![AutowireCapableBeanFactory](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210423103354.png)
+
+![Autowire](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210423103413.png)
 
 #### 5.2.3. 限制和不足
 
+[beans-factory-autowire官方说明](https://docs.spring.io/spring-framework/docs/5.2.2.RELEASE/spring-framework-reference/core.html#beans-factory-autowire)
+
+- Explicit dependencies in `property` and `constructor-arg` settings always override autowiring. You cannot autowire simple properties such as primitives, `Strings`, and `Classes` (and arrays of such simple properties). This limitation is by-design.
+
+- Autowiring is less exact than explicit wiring. Although, as noted in the earlier table, Spring is careful to avoid guessing in case of ambiguity that might have unexpected results. The relationships between your Spring-managed objects are no longer documented explicitly.
+
+- Wiring information may not be available to tools that may generate documentation from a Spring container.
+
+- Multiple bean definitions within the container may match the type specified by the setter method or constructor argument to be autowired. For arrays, collections, or `Map` instances, this is not necessarily a problem. However, for dependencies that expect a single value, this ambiguity is not arbitrarily resolved. If no unique bean definition is available, an exception is thrown.
+
 ### 5.3. 依赖注入方式
 
+[beans-factory-collaborators](https://docs.spring.io/spring-framework/docs/5.2.2.RELEASE/spring-framework-reference/core.html#beans-factory-collaborators)
+
+![依赖注入官方文档](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210423105106.png)
+
 #### 5.3.1. setter注入
+
+![setter方法注入](https://abram.oss-cn-shanghai.aliyuncs.com/blog/spring/20210423152310.png)
+
+##### 5.3.1.1. XML资源配置注入
+
+~~~java
+public class BookHandler {
+
+    private Book book;
+
+    public Book getBook() {
+        return book;
+    }
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    @Override
+    public String toString() {
+        return "BookHandler{" +
+                "book= " + book.toString() +
+                '}';
+    }
+}
+
+public class XmlBeanDependencyInjectionDemo {
+
+    public static void main(String[] args) {
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        String path = "classpath:/META-INF/dependency-setter-injection.xml";
+        reader.loadBeanDefinitions(path);
+
+        BookHandler bookHandler = (BookHandler)beanFactory.getBean("bookHandler");
+        System.out.println(bookHandler);
+    }
+}
+
+~~~
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="dependency-lookup.xml"/>
+
+    <bean id="bookHandler" class="xyz.wongs.weathertop.dependency.injection.BookHandler">
+        <property name="book" ref="bookSupport"/>
+    </bean>
+</beans>
+~~~
+
+##### 5.3.1.2. Java注解配置注入
+
+~~~java
+public class AnnotationBeanDependencyInjectionDemo {
+
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(AnnotationBeanDependencyInjectionDemo.class);
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
+        String path = "classpath:/META-INF/dependency-lookup.xml";
+        reader.loadBeanDefinitions(path);
+
+        context.refresh();
+        BookHandler bookHandler = context.getBean(BookHandler.class);
+        System.out.println(bookHandler);
+        context.close();
+    }
+
+    @Bean
+    public BookHandler bookHandler(Book book){
+        BookHandler handler = new BookHandler();
+        handler.setBook(book);
+        return handler;
+    }
+}
+
+~~~
+
+##### 5.3.1.3. API配置元信息
+
+~~~java
+
+/**
+ * API元信息配置
+ * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
+ * @ClassName ApiBeanDependencyInjectionDemo
+ * @Description
+ * @Github <a>https://github.com/rothschil</a>
+ * @date 2021/4/23 14:35
+ * @Version 1.0.0
+ */
+public class ApiBeanDependencyInjectionDemo {
+
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        BeanDefinition beanDefinition = createBeanDefinition();
+        context.registerBeanDefinition("bookHandler",beanDefinition);
+
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
+        String path = "classpath:/META-INF/dependency-lookup.xml";
+        reader.loadBeanDefinitions(path);
+
+        context.refresh();
+        BookHandler bookHandler = context.getBean(BookHandler.class);
+        System.out.println(bookHandler);
+        context.close();
+    }
+
+    public static BeanDefinition createBeanDefinition(){
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(BookHandler.class);
+        builder.addPropertyReference("book","bookSupport");
+        return builder.getBeanDefinition();
+    }
+}
+
+~~~
 
 #### 5.3.2. 构造器注入
 

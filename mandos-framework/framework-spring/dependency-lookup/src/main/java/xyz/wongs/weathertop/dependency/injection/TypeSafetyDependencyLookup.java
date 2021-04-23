@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.dependency.loopup;
+package xyz.wongs.weathertop.dependency.injection;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;

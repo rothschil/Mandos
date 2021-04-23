@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.dependency.loopup;
+package xyz.wongs.weathertop.dependency.injection;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
@@ -7,7 +7,6 @@ import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 /**
  * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
