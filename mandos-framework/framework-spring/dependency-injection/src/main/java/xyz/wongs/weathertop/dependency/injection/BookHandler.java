@@ -14,6 +14,13 @@ public class BookHandler {
 
     private Book book;
 
+    public BookHandler() {
+    }
+
+    public BookHandler(Book book) {
+        this.book = book;
+    }
+
     public Book getBook() {
         return book;
     }

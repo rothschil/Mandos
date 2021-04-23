@@ -10,13 +10,13 @@ import xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book;
 /**
  * XML配置方式注入
  * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
- * @ClassName XmlBeanDependencyInjectionDemo
+ * @ClassName XmlInjectionBySetterDemo
  * @Description
  * @Github <a>https://github.com/rothschil</a>
  * @date 2021/4/23 14:35
  * @Version 1.0.0
  */
-public class XmlBeanDependencyInjectionDemo {
+public class XmlInjectionBySetterDemo {
 
     public static void main(String[] args) {
 

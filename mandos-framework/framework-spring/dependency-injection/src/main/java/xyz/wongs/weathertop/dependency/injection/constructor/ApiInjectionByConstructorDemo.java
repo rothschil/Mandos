@@ -1,25 +1,27 @@
-package xyz.wongs.weathertop.dependency.injection.setter;
+package xyz.wongs.weathertop.dependency.injection.constructor;
 
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 import xyz.wongs.weathertop.dependency.injection.BookHandler;
-import xyz.wongs.weathertop.ioc.dependency.lookup.overview.domain.Book;
 
 /**
- * Java注解配置注入
+ * API元信息配置
  * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
- * @ClassName AnnotationBeanDependencyInjectionDemo
+ * @ClassName ApiInjectionDemo
  * @Description
  * @Github <a>https://github.com/rothschil</a>
  * @date 2021/4/23 14:35
  * @Version 1.0.0
  */
-public class AnnotationBeanDependencyInjectionDemo {
+public class ApiInjectionByConstructorDemo {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        context.register(AnnotationBeanDependencyInjectionDemo.class);
+        BeanDefinition beanDefinition = createBeanDefinition();
+        context.registerBeanDefinition("bookHandler",beanDefinition);
+
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
         String path = "classpath:/META-INF/dependency-lookup.xml";
         reader.loadBeanDefinitions(path);
@@ -30,10 +32,9 @@ public class AnnotationBeanDependencyInjectionDemo {
         context.close();
     }
 
-    @Bean
-    public BookHandler bookHandler(Book book){
-        BookHandler handler = new BookHandler();
-        handler.setBook(book);
-        return handler;
+    public static BeanDefinition createBeanDefinition(){
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(BookHandler.class);
+        builder.addConstructorArgReference("book");
+        return builder.getBeanDefinition();
     }
 }
