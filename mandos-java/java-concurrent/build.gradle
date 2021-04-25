@@ -1,0 +1,8 @@
+archivesBaseName = 'java-concurrent'
+
+dependencies {
+
+
+}
+
+jar.enabled = true

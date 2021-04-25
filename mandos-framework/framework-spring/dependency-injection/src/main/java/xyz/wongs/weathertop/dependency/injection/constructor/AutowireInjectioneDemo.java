@@ -5,7 +5,7 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import xyz.wongs.weathertop.dependency.injection.BookHandler;
 
 /**
- * Autowiring
+ * Autowiring 构造器
  * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
  * @ClassName AutowireInjectioneDemo
  * @Description
@@ -19,7 +19,7 @@ public class AutowireInjectioneDemo {
 
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
-        String path = "classpath:/META-INF/autowire-dependency-constructor-injection.xml";
+        String path = "classpath:/META-INF/autowire-dependency-constructor2-injection.xml";
         reader.loadBeanDefinitions(path);
 
         BookHandler bookHandler = beanFactory.getBean(BookHandler.class);

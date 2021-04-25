@@ -895,8 +895,38 @@ public class ApiBeanDependencyInjectionDemo {
 ##### 5.3.1.4. 按名称和按类型自动注入
 
 
-
 #### 5.3.2. 构造器注入
+
+~~~java
+public class XmlInjectionByConstructorDemo {
+
+    public static void main(String[] args) {
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        String path = "classpath:/META-INF/dependency-counstructor-injection.xml";
+        reader.loadBeanDefinitions(path);
+
+        BookHandler bookHandler = beanFactory.getBean(BookHandler.class);
+        System.out.println(bookHandler);
+    }
+}
+
+~~~
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="dependency-lookup.xml"/>
+    <bean class="xyz.wongs.weathertop.dependency.injection.BookHandler">
+        <constructor-arg name="book" ref="bookSupport"/>
+    </bean>
+</beans>
+~~~
+
 
 #### 5.3.3. 字段注入
 
