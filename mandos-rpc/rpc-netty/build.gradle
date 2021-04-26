@@ -4,6 +4,7 @@ dependencies {
     implementation project(':mandos-common:mandos-util')
     compile('io.netty:netty-all:5.0.0.Alpha2')
     compile('org.jboss.marshalling:jboss-marshalling-serial:2.0.0.Final')
+    compile('javax.activation:activation:1.1.1')
 
 }
 

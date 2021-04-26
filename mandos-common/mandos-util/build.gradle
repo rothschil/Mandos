@@ -2,7 +2,7 @@ archivesBaseName = 'mandos-util'
 apply from : 'dependencies.gradle'
 description = 'mandos-utils'
 jar.enabled=true
-//bootJar.enabled=true
+bootJar.enabled=true
 dependencies {
     compile(
             libraries.'hibernate-validator',
@@ -12,7 +12,6 @@ dependencies {
             libraries.'commons-io',
             libraries.'commons-lang3',
             libraries.'commons-codec',
-//            libraries.'druid-spring-boot-starter',
             libraries.'commons-configuration',
 //            libraries.'ojdbc6',
 //            libraries.'mysql-connector-java',
@@ -24,6 +23,7 @@ dependencies {
             libraries.'spring-web',
             libraries.'fastjson',
             libraries.'guava',
+            libraries.'javax-annotation',
             libraries.'hutool-all',
 //            libraries.'spring-boot-starter-aop'
     )

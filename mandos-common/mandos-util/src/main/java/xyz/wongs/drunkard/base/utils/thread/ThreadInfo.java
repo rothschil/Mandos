@@ -1,9 +1,6 @@
 package xyz.wongs.drunkard.base.utils.thread;
 
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
-
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
