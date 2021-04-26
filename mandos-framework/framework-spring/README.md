@@ -930,6 +930,10 @@ public class XmlInjectionByConstructorDemo {
 
 #### 5.3.3. 字段注入
 
+- autowired
+- resource 
+- inject
+
 #### 5.3.4. 方法注入
 
 #### 5.3.5. 接口回调注入
