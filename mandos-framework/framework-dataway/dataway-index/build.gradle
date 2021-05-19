@@ -1,0 +1,12 @@
+archivesBaseName = 'dataway-index'
+
+dependencies {
+    implementation group: 'net.hasor', name: 'hasor-spring', version: '4.1.4'
+    implementation group: 'net.hasor', name: 'hasor-dataway', version: '4.1.4'
+    implementation group: 'com.alibaba', name: 'druid-spring-boot-starter', version: '1.1.10'
+    implementation group: 'com.alibaba', name: 'druid', version: '1.1.21'
+    compile(group: 'org.springframework.boot',name:'spring-boot-starter-web',version: '2.3.10.RELEASE')
+    compile(group: 'org.springframework.boot',name:'spring-boot-starter-data-jdbc',version: '2.3.10.RELEASE')
+    compile(group: 'mysql',name:'mysql-connector-java',version: '5.1.30')
+}
+jar.enabled = true
