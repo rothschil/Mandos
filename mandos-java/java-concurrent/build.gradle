@@ -1,7 +1,8 @@
 archivesBaseName = 'java-concurrent'
 
 dependencies {
-
+    compile('org.apache.commons:commons-lang3:3.12.0')
+    compile('commons-logging:commons-logging:1.2')
 
 }
 

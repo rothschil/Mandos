@@ -1,0 +1,7 @@
+archivesBaseName = 'java-base'
+
+dependencies {
+    compile('commons-logging:commons-logging:1.2')
+}
+
+jar.enabled = true
