@@ -23,11 +23,12 @@ public class UserSemaphone {
     public static void main(String[] args) {
 
         final UserSemaphone userSemaphone = new UserSemaphone();
-        ExecutorService es = Executors.newFixedThreadPool(4);
+        ExecutorService es = Executors.newFixedThreadPool(5);
         es.execute(new Student(sp, "李克强"));
         es.execute(new Student(sp, "习近平"));
         es.execute(new Student(sp, "毛泽东"));
-
+        es.execute(new Student(sp, "周恩来"));
+        es.execute(new Student(sp, "邓小平"));
         es.shutdown();
     }
 }
@@ -44,12 +45,14 @@ class Student implements Runnable {
 
     public void run() {
         try {
+            // 2.1 尝试获取
             sp.acquire();
             log.info("ThreadName is " + Thread.currentThread().getName() + " 学生名：" + stuName + " 获取许可");
             TimeUnit.SECONDS.sleep(3);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
+            //  2.2 释放资源
             log.info("ThreadName is " + Thread.currentThread().getName() + " 学生名：" + stuName + " 许可使用完毕，准备释放");
             sp.release();
         }

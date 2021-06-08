@@ -49,13 +49,15 @@ public class UserCountDownLatch {
         int size = 3;
         CountDownLatch countDownLatch = new CountDownLatch(size);
         ExecutorService executorService =  Executors.newFixedThreadPool(size);
-        String suffix = "t_";
+        String suffix = "T_";
+        long start = System.currentTimeMillis();
         for (int i = 0; i < size; i++) {
             executorService.execute(new CountDownLatchDemo(countDownLatch,suffix+i));
         }
         try {
             countDownLatch.await();
-            log.info("执行完成");
+            long end = System.currentTimeMillis();
+            log.info("执行完成 共耗时 "+(end-start)/1000 +" 秒");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

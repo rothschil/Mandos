@@ -10,17 +10,11 @@ import java.util.concurrent.*;
 public class UserCyclicBarrier {
     static Log log = LogFactory.getLog(UserCountDownLatch.class);
     public static void main(String[] args) {
-        CyclicBarrier cyclicBarrier = new CyclicBarrier(3, new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("所有任务都完成");
-            }
-        });
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(3);
         ExecutorService executorService =  Executors.newFixedThreadPool(3);
         for (int i = 0; i < 3; i++) {
             executorService.submit(new CyclicBarrierDemo(cyclicBarrier,"t-"+i));
         }
-
         log.info("主程序执行完成");
 
         executorService.shutdown();
@@ -49,8 +43,9 @@ class CyclicBarrierDemo implements Runnable{
             TimeUnit.SECONDS.sleep(id);
             LocalDateTime localDateTime = LocalDateTime.now();
             String resutl = exeStr+"_"+id;
-            log.info("当前时间 "+localDateTime.getMinute()+":"+localDateTime.getSecond()+" 当前线程名: "+Thread.currentThread().getName()+ " 结果为: "+ resutl);
+            log.info("当前时间 "+localDateTime.getMinute()+":"+localDateTime.getSecond()+" 当前线程名: "+Thread.currentThread().getName()+ " 参数为: "+ resutl +" 执行状态为 Running");
             cyclicBarrier.await();
+            log.info("当前时间 "+localDateTime.getMinute()+":"+localDateTime.getSecond()+" 当前线程名: "+Thread.currentThread().getName()+ " 参数为: "+ resutl +" 执行状态为 End");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch(BrokenBarrierException e){

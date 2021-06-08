@@ -5,23 +5,24 @@ import java.util.concurrent.TimeUnit;
 
 public class UserVolatile {
 
-    private static UserVolatile userVolatile;
+    private static volatile UserVolatile instance;
 
     private UserVolatile(){}
 
     public static UserVolatile getInstance() throws InterruptedException {
-        if(null== userVolatile){
+        if(null== instance){
             synchronized (UserVolatile.class) {
-                TimeUnit.SECONDS.sleep(2);
-                userVolatile = new UserVolatile();
+                if(null== instance) {
+                    TimeUnit.SECONDS.sleep(2);
+                    instance = new UserVolatile();
+                }
             }
         }
-        return userVolatile;
+        return instance;
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i < 10000; i++) {
-
+        for (int i = 0; i < 100000; i++) {
            new Thread(new Runnable() {
                @Override
                public void run() {
@@ -34,5 +35,4 @@ public class UserVolatile {
            }).start();
         }
     }
-
 }

@@ -1,6 +1,9 @@
 package xyz.wongs.weathertop.java.base.io;
 
 import java.io.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -36,20 +39,24 @@ public class ReadFileDemo {
         File file = new File(path);
         try {
             if(file.isDirectory()){
-//                File[] files = file.listFiles();
-                File[] files = file.listFiles(new ImageFilter());
+                File[] files = file.listFiles();
+//                File[] files = file.listFiles(new ImageFilter());
                 for (File temp : files) {
                     System.out.print("[文件名]: "+temp.getName());
                     System.out.print(" \t [文件大小]: "+(temp.length()/1024) +" Kb");
                     System.out.print(" \t [文件]: "+(temp.isFile()?"文件":"不是文件"));
                     System.out.print(" \t [目录]: "+(temp.isDirectory()?"文件夹":"不是文件夹"));
-                    System.out.print(" \t [文件修改日期]: "+new Date(temp.lastModified()));
+                    System.out.print(" \t [文件修改日期]: "+getDateTime(temp.lastModified()));
                     System.out.println("");
                 }
             }
         } finally {
             
         }
+    }
+    public static LocalDateTime getDateTime(long milli){
+        Instant instant = Instant.ofEpochMilli(milli);
+        return  LocalDateTime.ofInstant(instant, ZoneOffset.systemDefault());
     }
 
     /**
