@@ -1,9 +1,8 @@
 package xyz.wongs.weathertop.java.concurrent.thread.day6;
 
-import xyz.wongs.weathertop.java.concurrent.thread.day1.VolatileTest;
+import xyz.wongs.weathertop.java.concurrent.tool.ThreadPoolUtils;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,8 +15,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadLocalDemo implements Runnable{
 
-    // 2、定义 ThreadLocal
-    private static ThreadLocal<String> THREAD_LOCAL = new ThreadLocal<String>();
+    /**
+     * 2、定义 ThreadLocal
+     */
+    private static final ThreadLocal<String> THREAD_LOCAL = new ThreadLocal<String>();
 
     private String msg;
 
@@ -27,6 +28,7 @@ public class ThreadLocalDemo implements Runnable{
 
     @Override
     public void run() {
+        THREAD_LOCAL.remove();
         System.out.println(" ThreadName is "+Thread.currentThread().getName() +" Setting Before== >"+ msg);
         // 2.1、设置内容
         THREAD_LOCAL.set(msg);
@@ -36,16 +38,16 @@ public class ThreadLocalDemo implements Runnable{
 
     public static void main(String[] args) throws InterruptedException{
         // 1、创建线程池
-        ExecutorService executorService = Executors.newScheduledThreadPool(3);
+        int size = 4;
+        ExecutorService executorService = ThreadPoolUtils.doCreate(size,size,110,"LOCK");
         ThreadLocalDemo demo = null;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < size; i++) {
             TimeUnit.SECONDS.sleep(1);
             // 1.1、定义对象
             demo = new ThreadLocalDemo(" Number ["+i+" ] Runing");
             // 1.2、提交任务
             executorService.execute(demo);
         }
-
         // 3、关闭线程池
         executorService.shutdown();
     }
